@@ -3,6 +3,9 @@
 
 from datetime import datetime
 
+import iads as iads
+from iads import LabeledSet as ls
+
 
 def delete_columns(data, columns_to_drop):
     """ Delete specified columns in columns_to_drop from the dataframe
@@ -35,3 +38,20 @@ def transform_date(x):
             return int(x)
         except BaseException:
             return 0
+
+
+def createLabeledSet(X, y):
+    """FIXME! briefly describe function
+
+    :param X:
+    :param y:
+    :returns:
+    :rtype:
+
+    """
+
+    l = ls.LabeledSet(X.shape[0])
+    for i, j in zip(X, y):
+        l.addExample(i, j)
+
+    return l

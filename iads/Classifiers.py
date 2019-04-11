@@ -128,20 +128,24 @@ class Regressor(Classifier):
 
     """
 
-    def __init__(self, input_dimension):
-        """FIXME! briefly describe function
+    def __init__(self, dimension_kernel, learning_rate, kernel, max_iter=10):
+        """
 
-        :param input_dimension:
-        :returns:
-        :rtype:
+        :param dimension_kernel:
+        :param learning_rate:
+        :param kernel:
 
         """
 
-        self.input_dimension = input_dimension
-        self.w = np.random.random(input_dimension)
+        self.dimension_kernel = dimension_kernel
+        self.learning_rate = learning_rate
+        self.kernel = kernel
+        self.max_iter = max_iter
+        self.w = np.random.random(self.dimension_kernel)
+        print(self.w)
 
     def predict(self, x):
-        """FIXME! briefly describe function
+        """ FIXME! briefly describe function
 
         :param x:
         :returns:
@@ -149,7 +153,57 @@ class Regressor(Classifier):
 
         """
 
-        return x.dot(self.w.T)
+        return self.kernel.transform(x).dot(self.w.T)
 
     def train(self, labeledSet):
-        pass
+        """ FIXME! briefly describe function
+
+        :param labeledSet:
+        :returns:
+        :rtype:
+
+        """
+        for _ in range(self.max_iter):
+            self.w -= (self.learning_rate *
+                       np.mean(2 *
+                               (np.dot(self.kernel.transform_set(labeledSet.x), self.w.T) -
+                                labeledSet.y)))
+
+# ---------------------------
+
+
+class KernelBias:
+    def transform(self, x):
+        """ FIXME! briefly describe function
+
+        :param x:
+        :returns:
+        :rtype:
+
+        """
+
+        return np.hstack((x, 1))
+
+    def transform_set(self, X):
+        """ FIXME! briefly describe function
+
+        :param X:
+        :returns:
+        :rtype:
+
+        """
+
+        return np.hstack((X, np.ones(X.shape[0])[:, np.newaxis]))
+
+
+class KernelPoly:
+    def transform(self, x):
+        """ FIXME! briefly describe function
+
+        :param x:
+        :returns:
+        :rtype:
+
+        """
+
+        return np.array([1, x[0], x[1], x[0]**2, x[1]**2, x[0] * x[1]])

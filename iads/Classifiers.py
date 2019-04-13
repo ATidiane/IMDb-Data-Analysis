@@ -172,38 +172,38 @@ class Regressor(Classifier):
 # ---------------------------
 
 
+class NoKernel:
+    def transform(self, x):
+        """
+        """
+
+        return x
+
+
 class KernelBias:
     def transform(self, x):
-        """ FIXME! briefly describe function
-
-        :param x:
-        :returns:
-        :rtype:
-
+        """
         """
 
-        return np.hstack((x, 1))
-
-    def transform_set(self, X):
-        """ FIXME! briefly describe function
-
-        :param X:
-        :returns:
-        :rtype:
-
-        """
-
-        return np.hstack((X, np.ones(X.shape[0])[:, np.newaxis]))
+        if x.ndim == 1:
+            return np.hstack((x, 1))
+        elif x.ndim == 2:
+            return np.hstack((x, np.ones(x.shape[0])[:, np.newaxis]))
+        else:
+            raise("Wrong number of dimensions of X")
 
 
 class KernelPoly:
     def transform(self, x):
-        """ FIXME! briefly describe function
-
-        :param x:
-        :returns:
-        :rtype:
-
+        """
         """
 
         return np.array([1, x[0], x[1], x[0]**2, x[1]**2, x[0] * x[1]])
+
+
+class KernelPolytwo:
+    def transform(self, x):
+        """
+        """
+
+        return np.hstack((np.ones(x.shape[0])[:, np.newaxis], x, x**2))

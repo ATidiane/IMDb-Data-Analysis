@@ -1,4 +1,4 @@
-# IMDB_Project
+# Analyse de données de films
 
 Ce projet porte sur les données travailler sur des données décrivant des films.
 
